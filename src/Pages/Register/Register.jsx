@@ -5,8 +5,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
+import Loading from "../../Components/Loading/Loading";
 export default function Register() {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
+  const [errMsg, setErrMsg] = useState("");
+  const [isloading, setIsloading] = useState(false);
+
   const initailValues = {
     name: "",
     email: "",
@@ -14,16 +19,6 @@ export default function Register() {
     age: null,
     phone: "",
   };
-
-  function onSubmit(values) {
-    axios.post("https://note-sigma-black.vercel.app/api/v1/users/signUp", values).then((res) => {
-        console.log(res.data.msg);
-        navigate("/login")
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -41,19 +36,43 @@ export default function Register() {
       .required("password is required")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Invalid paassword"
+        "Invalid paassword A valid password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character from the set @$!%*?&."
       ),
 
     phone: Yup.string()
       .required("phone is required")
-      .matches(/^(\+20|0)?1[0125]\d{8}$/, "Invalid phone number"),
+      .matches(/^(\+20|0)?1[0125]\d{8}$/, "Invalid phone number A valid Egyptian mobile number must start with either +20, or 0, followed by 1, then one of 0, 1, 2, or 5, and then exactly 8 digits."),
   });
 
-  const { values, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: initailValues,
-    onSubmit,
-    validationSchema,
-  });
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
+    useFormik({
+      initialValues: initailValues,
+      onSubmit,
+      validationSchema,
+    });
+
+  function onSubmit(values) {
+    setIsloading(true);
+    setErrMsg("");
+    axios
+      .post("https://note-sigma-black.vercel.app/api/v1/users/signUp", values)
+      .then((res) => {
+        console.log(res.data.msg);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrMsg(err);
+        
+      })
+      .finally(() => {
+        setIsloading(false);
+      });
+  }
+
+  if (isloading) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-vh-100 register p-3 d-flex justify-content-between align-items-center ">
@@ -61,40 +80,52 @@ export default function Register() {
         <img src={img} className="register-img " alt="LoginPic" />
       </div>
       <h1>Register</h1>
-      <Form onSubmit={handleSubmit} className=" form ">
+      <Form onSubmit={handleSubmit} className="form">
         <h2>* Register *</h2>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
           <Form.Control
             onChange={handleChange}
             onBlur={handleBlur}
+            isInvalid={errors.name && touched.name}
             name="name"
             type="text"
             placeholder="Enter your name"
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.name}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             onChange={handleChange}
             onBlur={handleBlur}
+            isInvalid={errors.email && touched.email}
             name="email"
             type="email"
             placeholder="Enter email"
           />
           <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
+            Enter valid email and never share with anyone
           </Form.Text>
+          <Form.Control.Feedback type="invalid">
+            {errors.email}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             onChange={handleChange}
             onBlur={handleBlur}
+            isInvalid={errors.password && touched.password}
             name="password"
             type="password"
             placeholder="Password"
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.password}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicAge">
           <Form.Label>Age</Form.Label>
@@ -111,10 +142,14 @@ export default function Register() {
           <Form.Control
             onChange={handleChange}
             onBlur={handleBlur}
+            isInvalid={errors.phone && touched.phone}
             name="phone"
             type="text"
             placeholder="Phone"
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.phone}
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Button variant="primary" type="submit">
