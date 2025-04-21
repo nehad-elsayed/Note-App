@@ -12,7 +12,7 @@ export default function Home() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [notes, setNotes] = useState([]);
- const {counter,setCounter}= useContext(counterContext)
+ const {setCounter}= useContext(counterContext)
 
   const initialValues = {
     title: "",
