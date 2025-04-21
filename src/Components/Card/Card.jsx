@@ -66,7 +66,7 @@ export default function CardItem({ note, deleteNote, getUserNotes }) {
 
       <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>update Note</Modal.Title>
+          <Modal.Title>Edit Note</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form action="">

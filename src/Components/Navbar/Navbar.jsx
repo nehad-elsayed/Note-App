@@ -5,10 +5,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { authContext } from "../../contexts/auth";
 import { useNavigate } from "react-router-dom";
+import { counterContext } from "../../contexts/ConterContext";
 
 export default function NavbarComp() {
   const { isLoggedIn, setIsLoggedIn } = useContext(authContext);
   const navigate = useNavigate();
+ const{ counter }= useContext(counterContext)
 
   function logout() {
     setIsLoggedIn(false);
@@ -16,6 +18,9 @@ export default function NavbarComp() {
     navigate("/login");
   }
 
+  
+
+ 
   return (
     <>
       <Navbar expand="lg" className="nav p-3">
@@ -27,9 +32,10 @@ export default function NavbarComp() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {isLoggedIn ? (
-                <button className="logout-btn " onClick={logout}>
-                  LogOut
-                </button>
+                <> <span className="text-white me-2 my-2 d-flex align-items-center justify-content-center" > {counter}<i className="fa-solid fa-comment ms-1"></i> </span>   <button className="logout-btn mt-2 " onClick={logout}>
+                LogOut
+              </button>  </>
+             
               ) : (
                 <>
                   <Nav.Link className="navLink" href="/login">

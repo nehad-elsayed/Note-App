@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import toast from "react-hot-toast";
 import CardItem from "../../Components/Card/Card";
+import { counterContext } from "../../contexts/ConterContext";
 
 export default function Home() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [notes, setNotes] = useState([]);
+ const {counter,setCounter}= useContext(counterContext)
 
   const initialValues = {
     title: "",
@@ -55,8 +57,10 @@ export default function Home() {
       );
       console.log(data);
       setNotes(data.notes);
+      setCounter(data.notes.length)
     } catch (error) {
-      setNotes(null) //to aviod the error during deleting the last note 
+      setNotes(null)
+      setCounter(0) //to aviod the error during deleting the last note 
     }
  
   }
@@ -123,7 +127,7 @@ export default function Home() {
           {notes?.map((note) => {
             return <div key={note._id} className="col-12  p-2" ><CardItem note={note} deleteNote={deleteNote} getUserNotes={getUserNotes} /></div>
           })}
-        </div> : <h1 className="text-danger  fs-1 text-center text-capitalize">Hi <i className="fa-regular fa-hand-peace"></i> Your Note List is Empty !! </h1>}
+        </div> : <h1 className="text-danger my-4  fs-1 text-center text-capitalize">Hi <i className="fa-regular fa-hand-peace"></i> Your Note List is Empty !! </h1>}
       </div>
     </>
   );

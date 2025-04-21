@@ -6,6 +6,7 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import AuthContextProvider from "./contexts/auth";
 import { Toaster } from "react-hot-toast";
+import CounterContextProvider from "./contexts/ConterContext";
 
 function App() {
   const routers = createBrowserRouter([
@@ -22,10 +23,12 @@ function App() {
 
   return (
     <>
-      <AuthContextProvider>
-        <RouterProvider router={routers}></RouterProvider>
-        <Toaster />
-      </AuthContextProvider>
+      <CounterContextProvider>
+        <AuthContextProvider>
+          <RouterProvider router={routers}></RouterProvider>
+          <Toaster />
+        </AuthContextProvider>
+      </CounterContextProvider>
     </>
   );
 }

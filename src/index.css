@@ -63,7 +63,11 @@
   margin-left: 5px;
   font-size: 1.25rem;
   transition: color 0.5s;
-  margin-block: 5px;
+  margin-block:15px !important;
+
+}
+.navbar-toggler{
+  background-color: white !important;
 }
 
 .logout-btn:hover {
