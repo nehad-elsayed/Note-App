@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import toast from "react-hot-toast";
 import CardItem from "../../Components/Card/Card";
 import { counterContext } from "../../contexts/ConterContext";
+import { authContext } from "../../contexts/auth";
 
 export default function Home() {
   const [show, setShow] = useState(false);
@@ -13,6 +14,7 @@ export default function Home() {
   const handleShow = () => setShow(true);
   const [notes, setNotes] = useState([]);
  const {setCounter}= useContext(counterContext)
+const{isLoggedIn}= useContext(authContext)
 
   const initialValues = {
     title: "",
@@ -89,7 +91,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-vh-100 p-2">
+       <div className="min-vh-100 p-2">
         <button
           className=" p-2 fs-2 text-info mt-2  fw-bolder d-block ms-auto rounded-2 border-0 "
           onClick={handleShow}
@@ -128,7 +130,7 @@ export default function Home() {
             return <div key={note._id} className="col-12  p-2" ><CardItem note={note} deleteNote={deleteNote} getUserNotes={getUserNotes} /></div>
           })}
         </div> : <h1 className="text-danger my-4  fs-1 text-center text-capitalize">Hi <i className="fa-regular fa-hand-peace"></i> Your Note List is Empty !! </h1>}
-      </div>
+      </div>  
     </>
   );
 }
