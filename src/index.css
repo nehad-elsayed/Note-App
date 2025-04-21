@@ -137,6 +137,13 @@ align-self: flex-end !important;
   justify-content: space-between;
   flex-direction: row;
 }
+ .card{
+  min-height: 100% !important;
+
+}
+  /*.card-footer{
+  margin-bottom: 0 !important;
+} */
 /* Media screens */
 @media (min-width:575.98px) {}
 

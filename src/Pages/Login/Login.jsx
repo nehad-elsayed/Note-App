@@ -5,13 +5,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Loading from "../../Components/Loading/Loading";
+import { authContext } from "../../contexts/auth";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [isloading, setIsloading] = useState(false);
+const{setIsLoggedIn}=useContext(authContext)  
 
   const initailValues = {
     email: "",
@@ -39,12 +42,15 @@ export default function Login() {
         console.log(res.data);
         if ((res.data.msg = "done")) {
           localStorage.setItem("token", res.data.token);
+          setIsLoggedIn(true)
           navigate("/");
+          toast.success(res.data.msg)
         }
       })
       .catch((err) => {
         console.log(err);
         setErrMsg(err);
+        toast.error(err.response.data.msg)
       })
       .finally(() => {
         setIsloading(false);
