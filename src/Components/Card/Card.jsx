@@ -9,11 +9,15 @@ export default function CardItem({ note, deleteNote, getUserNotes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [noteValues, setNoteValues] = useState({});
+  
 
-  const initialValues = {
-    title: "",
-    content: "",
-  };
+const initialValues= {
+  title:  noteValues.title ,
+  content:  noteValues.content ,
+}
+ 
+
 
   function updateNote(values) {
     axios
@@ -38,10 +42,19 @@ export default function CardItem({ note, deleteNote, getUserNotes }) {
       });
   }
 
+
+
   const { handleSubmit, handleChange, values } = useFormik({
     initialValues,
     onSubmit: updateNote,
   });
+
+
+    function sendNotesValues(values) {
+    console.log(values)
+    setNoteValues(values);
+  }
+
 
   return (
     <div className="inner text-success p-4 rounded-3   position-relative">
@@ -57,7 +70,13 @@ export default function CardItem({ note, deleteNote, getUserNotes }) {
             <Button variant="danger" onClick={() => deleteNote(note._id)}>
               Delete <i className="fa-solid fa-trash"></i>
             </Button>
-            <Button variant="info" onClick={handleShow}>
+            <Button
+              variant="info"
+              onClick={() => {
+                sendNotesValues(note);
+                handleShow()
+              }}
+            >
               edit <i className="fa-solid fa-pen-to-square"></i>
             </Button>
           </Card.Footer>
