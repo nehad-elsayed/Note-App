@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import CounterContextProvider from "./contexts/ConterContext";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import ProtectedAuthRoute from "./protectedRoutes/ProtectedAuthRoute";
+import NotFound from "./Components/NotFound/NotFound";
 
 function App() {
   const routers = createBrowserRouter([
@@ -19,6 +20,7 @@ function App() {
         { index: true, element: <ProtectedRoute><Home /></ProtectedRoute>  },
         { path: "/register", element: <ProtectedAuthRoute><Register /></ProtectedAuthRoute>  },
         { path: "/login", element: <ProtectedAuthRoute><Login /></ProtectedAuthRoute>  },
+        {path:"/*",element:<NotFound/>}
       ],
     },
   ]);
