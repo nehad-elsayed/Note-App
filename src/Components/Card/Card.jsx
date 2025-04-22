@@ -9,15 +9,13 @@ export default function CardItem({ note, deleteNote, getUserNotes }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [noteValues, setNoteValues] = useState({});
-  
 
-const initialValues= {
-  title:  noteValues.title ,
-  content:  noteValues.content ,
-}
- 
-
+  const initialValues = {
+    title: isEditing ? noteValues.title : "",
+    content: isEditing ? noteValues.content : "",
+  };
 
   function updateNote(values) {
     axios
@@ -42,19 +40,16 @@ const initialValues= {
       });
   }
 
-
-
   const { handleSubmit, handleChange, values } = useFormik({
     initialValues,
     onSubmit: updateNote,
   });
 
-
-    function sendNotesValues(values) {
-    console.log(values)
+  function sendNotesValues(values) {
+    console.log(values);
     setNoteValues(values);
+    setIsEditing(true);
   }
-
 
   return (
     <div className="inner text-success p-4 rounded-3   position-relative">
@@ -74,7 +69,7 @@ const initialValues= {
               variant="info"
               onClick={() => {
                 sendNotesValues(note);
-                handleShow()
+                handleShow();
               }}
             >
               edit <i className="fa-solid fa-pen-to-square"></i>

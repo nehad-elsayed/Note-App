@@ -14,7 +14,7 @@ export default function Home() {
   const handleShow = () => setShow(true);
   const [notes, setNotes] = useState([]);
  const {setCounter}= useContext(counterContext)
-const{isLoggedIn}= useContext(authContext)
+
 
 
   const initialValues = {
@@ -32,9 +32,11 @@ const{isLoggedIn}= useContext(authContext)
       .then((res) => {
         toast.success("Note has been Added");
         getUserNotes() //to display notes => display the new notes every time we add a new one
+     
       })
       .catch((err) => {
         console.log(err.response);
+        
       })
       .finally(() => {
         handleClose();
@@ -46,6 +48,8 @@ const{isLoggedIn}= useContext(authContext)
     initialValues,
     onSubmit: addNote,
   });
+
+
 
   //Calling Api to get  user Notes
   async function getUserNotes() {
@@ -59,7 +63,7 @@ const{isLoggedIn}= useContext(authContext)
         }
       );
       console.log(data);
-      setNotes(data.notes);
+      setNotes(data.notes.reverse());
       setCounter(data.notes.length)
     } catch (error) {
       setNotes(null)
@@ -127,7 +131,7 @@ const{isLoggedIn}= useContext(authContext)
         </Modal>
       {notes ?  <div className="row g-2 mt-3">
           {notes?.map((note) => {
-            return <div key={note._id} className="col-12  p-2" ><CardItem  note={note} deleteNote={deleteNote} getUserNotes={getUserNotes} /></div>
+            return <div key={note._id} className="col-12  p-2" ><CardItem   note={note} deleteNote={deleteNote} getUserNotes={getUserNotes} /></div>
           })}
         </div> : <h1 className="text-danger my-4  fs-1 text-center text-capitalize">Hi <i className="fa-regular fa-hand-peace"></i> Your Note List is Empty !! </h1>}
       </div>  
