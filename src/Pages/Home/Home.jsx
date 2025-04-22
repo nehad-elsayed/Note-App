@@ -131,7 +131,7 @@ export default function Home() {
         </Modal>
       {notes ?  <div className="row g-2 mt-3">
           {notes?.map((note) => {
-            return <div key={note._id} className="col-12  p-2" ><CardItem   note={note} deleteNote={deleteNote} getUserNotes={getUserNotes} /></div>
+            return <div key={note._id} className="col-12 p-2" ><CardItem   note={note} deleteNote={deleteNote} getUserNotes={getUserNotes} /></div>
           })}
         </div> : <h1 className="text-danger my-4  fs-1 text-center text-capitalize">Hi <i className="fa-regular fa-hand-peace"></i> Your Note List is Empty !! </h1>}
       </div>  
