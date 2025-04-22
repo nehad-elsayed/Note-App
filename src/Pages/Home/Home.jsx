@@ -95,9 +95,9 @@ export default function Home() {
 
   return (
     <>
-       <div className="min-vh-100 p-2">
+       <div className="min-vh-100 p-2 home">
         <button
-          className=" p-2 fs-2 text-info mt-2  fw-bolder d-block ms-auto rounded-2 border-0 "
+          className=" p-2 fs-2 text-info mt-2  btn-add fw-bolder d-block ms-auto rounded-2 border-0 "
           onClick={handleShow}
         >
           <i className="fa-solid fa-plus"></i> Add Note
